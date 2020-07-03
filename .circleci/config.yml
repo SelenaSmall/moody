@@ -1,20 +1,21 @@
 version: 2
-orbs:
-  ruby: circleci/ruby@0.1.2
+#orbs:
+#  ruby: circleci/ruby@0.1.2
 
 jobs:
   build:
+    working_directory: ~/moody
     docker:
       - image: circleci/ruby:2.7.1
         environment:
           PGHOST: localhost
           PGUSER: moody
           RAILS_ENV: test
-      - image: postgres:9.5
+      - image: circleci/postgres:9.5
         environment:
           POSTGRES_USER: moody
           POSTGRES_DB: moody_test
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: password
     steps:
       - checkout
 
@@ -47,12 +48,24 @@ jobs:
           - vendor/bundle
 
       # Wait for DB
-      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+#      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       # Setup the database
-      - run: bundle exec rake db:setup
+      - run: bundle exec rake db:create
 
       # Run the tests
       - run: yarn test
 
-      - run: bundle exec rspec/{controllers,api_acceptance}/
+#      - run: bundle exec rspec/{controllers,api_acceptance}/
+
+      # Run rspec in parallel
+      - type: shell
+        command: |
+          bundle exec rspec --profile 10 \
+                            --format RspecJunitFormatter \
+                            --out /tmp/test-results/rspec.xml \
+                            --format progress
+
+      # Save artifacts
+      - type: store_test_results
+        path: /tmp/test-results
