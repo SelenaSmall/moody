@@ -7,8 +7,14 @@ jobs:
     docker:
       - image: circleci/ruby:2.6.3-stretch-node
         environment:
+          PGHOST: localhost
+          PGUSER: your-app-name
           RAILS_ENV: test
       - image: postgres:9.5
+        environment:
+          POSTGRES_USER: your-app-name
+          POSTGRES_DB: your-app-name_test
+          POSTGRES_PASSWORD: ""
     executor: ruby/default
     steps:
       - checkout
@@ -24,7 +30,7 @@ jobs:
           command: node -v
 
       # install specific bundler
-      - run: gem install bundler -v 2.0.2
+      - run: gem install bundler -v 2.1.4
 
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
