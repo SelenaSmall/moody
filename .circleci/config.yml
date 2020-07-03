@@ -16,35 +16,22 @@ jobs:
     steps:
       - checkout
 
-#      - run:
-#          name: 'Update Node.js'
-#          command: |
-#            curl -sSL "https://nodejs.org/dist/v10.15.3/node-v10.15.3-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v10.15.3-linux-x64/bin/node
-#            curl https://www.npmjs.com/install.sh | sudo bash
-
-#      - run:
-#          name: Check current version of node
-#          command: node -v
-
-      # Restore Cached Dependencies
+      # Restore Cached Gems
       - type: cache-restore
         name: Restore bundle cache
         key: moody-{{ checksum "Gemfile.lock" }}
 
-#       Install specific bundler
-#      - run: gem install bundler -v 2.1.4
-
       # Bundle install
       - run: bundle install --path vendor/bundle
 
-      # Cache Bundl
+      # Cache Gems
       - type: cache-save
         name: Store bundle cache
         key: moody-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
 
-      # Only Cached Yarn
+      # Restore Cached Yarn
       - restore_cache:
           keys:
             - moody-yarn-{{ checksum "yarn.lock" }}
