@@ -8,13 +8,13 @@ jobs:
       - image: circleci/ruby:2.7.1
         environment:
           PGHOST: localhost
-          PGUSER: your-app-name
+          PGUSER: moody
           RAILS_ENV: test
-#      - image: postgres:9.5
-#        environment:
-#          POSTGRES_USER: your-app-name
-#          POSTGRES_DB: your-app-name_test
-#          POSTGRES_PASSWORD: ""
+      - image: postgres:9.5
+        environment:
+          POSTGRES_USER: moody
+          POSTGRES_DB: moody_test
+          POSTGRES_PASSWORD: ""
     steps:
       - checkout
 
@@ -28,11 +28,23 @@ jobs:
           name: Check current version of node
           command: node -v
 
+      # Restore Cached Dependencies
+      - type: cache-restore
+        name: Restore bundle cache
+        key: moody-{{ checksum "Gemfile.lock" }}
+
       # install specific bundler
       - run: gem install bundler -v 2.1.4
 
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
+
+      # Cache Dependencies
+      - type: cache-save
+        name: Store bundle cache
+        key: your-app-name-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
 
       # Wait for DB
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
