@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 orbs:
   ruby: circleci/ruby@0.1.2
 
@@ -10,11 +10,11 @@ jobs:
           PGHOST: localhost
           PGUSER: your-app-name
           RAILS_ENV: test
-      - image: postgres:9.5
-        environment:
-          POSTGRES_USER: your-app-name
-          POSTGRES_DB: your-app-name_test
-          POSTGRES_PASSWORD: ""
+#      - image: postgres:9.5
+#        environment:
+#          POSTGRES_USER: your-app-name
+#          POSTGRES_DB: your-app-name_test
+#          POSTGRES_PASSWORD: ""
     executor: ruby/default
     steps:
       - checkout
@@ -38,7 +38,6 @@ jobs:
       - run:
           name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn
-
 
       # Wait for DB
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
