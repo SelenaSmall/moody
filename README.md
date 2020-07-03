@@ -1,17 +1,27 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
 * Ruby version
+    see .tool-versions
+
+* Database creation
+    ```
+    rails db:create
+    ```
+
+* Run in development mode
+    Run the rails app
+    ```
+    bundle exec rails s
+    ```
+
+    Run webpack-dev-server for auto-reloading and faster compilation
+    ```
+    ./bin/webpack-dev-server
+    ```
 
 * System dependencies
 
 * Configuration
-
-* Database creation
 
 * Database initialization
 
