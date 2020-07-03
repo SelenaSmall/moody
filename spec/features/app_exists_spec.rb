@@ -7,7 +7,7 @@ feature 'App exists', js: true do
     end
 
     Then 'user sees they are on rails' do
-      wait_for { page }.to have_content("Hello React!")
+      wait_for { page }.to have_content("Hello !")
     end
   end
 end
