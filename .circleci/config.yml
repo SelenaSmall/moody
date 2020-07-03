@@ -34,12 +34,8 @@ jobs:
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
 
-      - run:
-          name: Yarn Install
-          command: yarn install --cache-folder ~/.cache/yarn
-
       # Wait for DB
-      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+#      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       # Setup the database
       - run: bundle exec rake db:setup
