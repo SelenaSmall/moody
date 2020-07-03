@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/moody
     docker:
-      - image: circleci/ruby:2.7.1-stretch-node
+      - image: circleci/ruby:2.7.1-buster-node
         environment:
           PGHOST: localhost
           PGUSER: moody
