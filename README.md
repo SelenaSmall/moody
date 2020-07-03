@@ -28,9 +28,13 @@ webpack-dev-server for auto-reloading and faster compilation
 set up with rspec, capybara and Selenium webdriver to run in chrome. 
 Failing specs will open a new window with a screen shot
         
-feature specs
+feature (integration) specs & rails unit tests
 
     bundle exec rspec [path-to-spec.rb]
+    
+component tests
+
+    yarn test
 
 ##### Deployment
     
