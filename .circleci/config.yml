@@ -47,8 +47,24 @@ jobs:
         paths:
           - vendor/bundle
 
+      # Only necessary if app uses webpacker or yarn in some other way
+      - restore_cache:
+          keys:
+            - rails-demo-yarn-{{ checksum "yarn.lock" }}
+            - rails-demo-yarn-
+
+      - run:
+          name: Yarn Install
+          command: yarn install --cache-folder ~/.cache/yarn
+
+      # Store yarn / webpacker cache
+      - save_cache:
+          key: rails-demo-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
       # Wait for DB
-#      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       # Setup the database
       - run: bundle exec rake db:create
@@ -56,16 +72,4 @@ jobs:
       # Run the tests
       - run: yarn test
 
-#      - run: bundle exec rspec/{controllers,api_acceptance}/
-
-      # Run rspec in parallel
-      - type: shell
-        command: |
-          bundle exec rspec --profile 10 \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress
-
-      # Save artifacts
-      - type: store_test_results
-        path: /tmp/test-results
+      - run: bundle exec rspec/{controllers,api_acceptance}/
