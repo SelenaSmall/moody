@@ -15,7 +15,6 @@ jobs:
 #          POSTGRES_USER: your-app-name
 #          POSTGRES_DB: your-app-name_test
 #          POSTGRES_PASSWORD: ""
-    executor: ruby/default
     steps:
       - checkout
 
