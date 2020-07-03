@@ -40,15 +40,15 @@ jobs:
       # Cache Dependencies
       - type: cache-save
         name: Store bundle cache
-        key: your-app-name-{{ checksum "Gemfile.lock" }}
+        key: moody-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
 
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
           keys:
-            - rails-demo-yarn-{{ checksum "yarn.lock" }}
-            - rails-demo-yarn-
+            - moody-yarn-{{ checksum "yarn.lock" }}
+            - moody-yarn-
 
       - run:
           name: Yarn Install
@@ -56,7 +56,7 @@ jobs:
 
       # Store yarn / webpacker cache
       - save_cache:
-          key: rails-demo-yarn-{{ checksum "yarn.lock" }}
+          key: moody-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
 
