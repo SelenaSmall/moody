@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/moody
     docker:
-      - image: circleci/ruby:2.7.1
+      - image: circleci/ruby:2.7.1-stretch-node
         environment:
           PGHOST: localhost
           PGUSER: moody
@@ -52,9 +52,7 @@ jobs:
 
       - run:
           name: Yarn Install
-          command: |
-            curl -o- -L https://yarnpkg.com/install.sh | bash
-#          command: yarn install --cache-folder ~/.cache/yarn
+          command: yarn install --cache-folder ~/.cache/yarn
 
       # Store yarn / webpacker cache
       - save_cache:
