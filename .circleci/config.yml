@@ -1,15 +1,45 @@
 version: 2.1
 orbs:
-  ruby: circleci/ruby@0.1.2 
+  ruby: circleci/ruby@0.1.2
 
 jobs:
   build:
     docker:
       - image: circleci/ruby:2.6.3-stretch-node
+        environment:
+          RAILS_ENV: test
+      - image: postgres:9.5
     executor: ruby/default
     steps:
       - checkout
+
       - run:
-          name: Which bundler?
-          command: bundle -v
-      - ruby/bundle-install
+          name: 'Update Node.js'
+          command: |
+            curl -sSL "https://nodejs.org/dist/v10.15.3/node-v10.15.3-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v10.15.3-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+
+      - run:
+          name: Check current version of node
+          command: node -v
+
+      # install specific bundler
+      - run: gem install bundler -v 2.0.2
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      - run:
+          name: Yarn Install
+          command: yarn install --cache-folder ~/.cache/yarn
+
+
+      # Wait for DB
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      # Setup the database
+      - run: bundle exec rake db:setup
+
+      # Run the tests
+      - run: yarn test
+      - run: bundle exec rspec
