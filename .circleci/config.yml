@@ -54,7 +54,6 @@ jobs:
           name: Yarn Install
           command: |
             curl -o- -L https://yarnpkg.com/install.sh | bash
-            yarn
 #          command: yarn install --cache-folder ~/.cache/yarn
 
       # Store yarn / webpacker cache
@@ -70,6 +69,6 @@ jobs:
       - run: bundle exec rake db:setup
 
       # Run the tests
-#      - run: yarn test
+      - run: yarn test
 
       - run: bundle exec rspec spec/
