@@ -1,0 +1,60 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/moody
+    docker:
+      - image: circleci/ruby:2.7.1-buster-node-browsers
+        environment:
+          PGHOST: localhost
+          PGUSER: moody
+          RAILS_ENV: test
+      - image: circleci/postgres:9.5
+        environment:
+          POSTGRES_USER: moody
+          POSTGRES_DB: moody_test
+          POSTGRES_PASSWORD: password
+    steps:
+      - checkout
+
+      # Restore Cached Gems
+      - type: cache-restore
+        name: Restore bundle cache
+        key: moody-{{ checksum "Gemfile.lock" }}
+
+      # Bundle install
+      - run: bundle install --path vendor/bundle
+
+      # Cache Gems
+      - type: cache-save
+        name: Store bundle cache
+        key: moody-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      # Restore Cached Yarn
+      - restore_cache:
+          keys:
+            - moody-yarn-{{ checksum "yarn.lock" }}
+            - moody-yarn-
+
+      # Yarn Install
+      - run:
+          name: Yarn Install
+          command: yarn install --cache-folder ~/.cache/yarn
+
+      # Cache Yarn
+      - save_cache:
+          key: moody-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      # Wait for DB
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      # Setup the database
+      - run: bundle exec rake db:setup
+
+      # Run the tests
+      - run: yarn test
+
+      - run: bundle exec rspec spec/

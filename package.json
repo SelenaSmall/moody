@@ -27,11 +27,9 @@
     "test": "jest"
   },
   "jest": {
-    "testPathIgnorePatterns": [
-      "config/webpack"
-    ],
+    "rootDir": "app/javascript/",
     "setupFilesAfterEnv": [
-      "<rootDir>/app/javascript/jestSetup.js"
+      "<rootDir>jestSetup.js"
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
