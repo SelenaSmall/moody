@@ -1,7 +1,4 @@
 version: 2
-#orbs:
-#  ruby: circleci/ruby@0.1.2
-
 jobs:
   build:
     working_directory: ~/moody
@@ -72,4 +69,4 @@ jobs:
       # Run the tests
 #      - run: yarn test
 
-      - run: bundle exec rspec/{controllers,api_acceptance}/
+      - run: bundle && bundle exec rspec
