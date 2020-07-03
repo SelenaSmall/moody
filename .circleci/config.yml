@@ -44,21 +44,21 @@ jobs:
         paths:
           - vendor/bundle
 
-      # Only necessary if app uses webpacker or yarn in some other way
-      - restore_cache:
-          keys:
-            - moody-yarn-{{ checksum "yarn.lock" }}
-            - moody-yarn-
-
-      - run:
-          name: Yarn Install
-          command: yarn install --cache-folder ~/.cache/yarn
-
-      # Store yarn / webpacker cache
-      - save_cache:
-          key: moody-yarn-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+#      # Only necessary if app uses webpacker or yarn in some other way
+#      - restore_cache:
+#          keys:
+#            - moody-yarn-{{ checksum "yarn.lock" }}
+#            - moody-yarn-
+#
+#      - run:
+#          name: Yarn Install
+#          command: yarn install --cache-folder ~/.cache/yarn
+#
+#      # Store yarn / webpacker cache
+#      - save_cache:
+#          key: moody-yarn-{{ checksum "yarn.lock" }}
+#          paths:
+#            - ~/.cache/yarn
 
       # Wait for DB
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
