@@ -1,31 +1,50 @@
 # README
 
-https://moody-r.herokuapp.com/
+https://moody-r.herokuapp.com/ 
 
-### System requirements
-    
+[![Moody](https://circleci.com/gh/SelenaSmall/moody.svg?style=shield)](https://app.circleci.com/pipelines/github/SelenaSmall/moody)
+
+## Development
+
+two options are available
+
+**1. Use make tasks to development quick and easy.**
+
+see available commands
+
+    make
+
+ensure you have tmux, asdf and project dependencies installed
+
+    make install_tools
+
+start a tmux session with everything you need for development
+
+    make tmux_start
+
+**2. The old fashioned way.**
+
+ensure you have the correct dependencies installed
+
     Ruby 2.7.1
     Rails 6.0.3
+    Bundler 2.1.4
+    nodejs 10.16.0
+    postgres 9.5.15
 
-### Database creation
-
-configured to use postgresql
-    
 initialize database
 
-    rails db:create
-
-### Run development mode
+    rails db:create && db:migrate
     
-rails app 
+run rails app 
 
     bundle exec rails s
 
-webpack-dev-server for auto-reloading and faster compilation 
+run webpack-dev-server for auto-reloading and faster compilation 
 
     ./bin/webpack-dev-server
 
-### Run test suite
+## Testing
     
 set up with rspec, capybara and Selenium webdriver to run in chrome. 
 Failing specs will open a new window with a screen shot
@@ -38,8 +57,8 @@ component tests
 
     yarn test
 
-### Deployment
+## Deployment
     
-set up for automatic deployments to Heroku from the master branch
+set up for automatic deployments to Heroku via CircleCI pipeline from the master branch
 
     git push

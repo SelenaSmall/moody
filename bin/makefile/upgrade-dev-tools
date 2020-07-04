@@ -1,0 +1,35 @@
+#!/usr/bin/env zsh
+
+set -e
+
+install_and_update_asdf_plugin() {
+  echo "installing $1 asdf plugin"
+  asdf plugin-add "$1" || echo "asdf $1 plugin already installed"
+  asdf plugin-update "$1"
+}
+
+brew tap eddieantonio/eddieantonio
+brew upgrade
+brew install coreutils gpg imagemagick@6 openssl pkg-config tmux imgcat
+brew cleanup
+brew link --force imagemagick@6
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.5 || echo "asdf already installed"
+. ~/.asdf/asdf.sh
+asdf update
+
+for plugin in nodejs postgres ruby
+do
+  install_and_update_asdf_plugin $plugin
+done
+
+~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+bin/makefile/pg-stop
+export POSTGRES_EXTRA_CONFIGURE_OPTIONS=""
+asdf install
+# we need to set the global postgres version because the pg gem binary is built
+# in a tmp folder outside this repository
+asdf global postgres "$(grep postgres .tool-versions | cut -d ' ' -f 2)"
+bin/makefile/pg-init
+bin/makefile/pg-start
+gem install bundler -v $(cat .expected_version_bundler)
+bundle install

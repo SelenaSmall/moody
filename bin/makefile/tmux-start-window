@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+
+window_name=`tmux display-message -p '#W'`
+
+echo "Restarting task for window $window_name"
+
+make $window_name

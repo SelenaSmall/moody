@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -e
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+_usage() {
+  echo -e "${YELLOW}STANDARD WORKFLOW${NC}"
+  echo
+  echo -e " ${YELLOW}make install_tools${NC} to install tools required for development"
+  echo
+  echo -e " ${YELLOW}make pull${NC} to get the latest changes from master and apply changes to gems, javascript packages, and migrations"
+  echo
+  echo -e " ${YELLOW}make tmux_start${NC} to start a tmux session with everything you need up and running"
+  echo
+  echo -e " ${YELLOW}make tmux_start_window${NC} to run the makefile task associated with the current tmux window"
+  echo
+  echo -e " ${YELLOW}make tmux_stop${NC} to shut everything down"
+  echo
+}
+
+_usage

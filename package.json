@@ -24,7 +24,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test-watch": "jest --watch --notify"
   },
   "jest": {
     "rootDir": "app/javascript/",

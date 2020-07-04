@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [[ -z 5432 ]]; then
+    echo "Must provide MOODY_DB_PORT in environment" 1>&2
+    exit 1
+fi
+PGPORT=5432 pg_ctl -D tmp/postgres -l tmp/postgres/logfile start
