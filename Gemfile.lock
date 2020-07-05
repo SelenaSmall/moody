@@ -91,6 +91,10 @@ GEM
     crass (1.0.6)
     debug_inspector (0.0.3)
     diff-lcs (1.4.4)
+    dotenv (2.7.5)
+    dotenv-rails (2.7.5)
+      dotenv (= 2.7.5)
+      railties (>= 3.2, < 6.1)
     erubi (1.9.0)
     ffi (1.13.1)
     globalid (0.4.2)
@@ -256,6 +260,7 @@ DEPENDENCIES
   capybara
   capybara-screenshot
   chromedriver-helper
+  dotenv-rails
   jbuilder (~> 2.7)
   listen (~> 3.2)
   pg (>= 0.18, < 2.0)

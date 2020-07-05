@@ -44,6 +44,8 @@ group :development, :test do
   gem 'pry-stack_explorer'
   gem 'pry-byebug'
   gem 'better_errors'
+
+  gem 'dotenv-rails', groups: [:development, :test]
 end
 
 group :development do
