@@ -10,6 +10,15 @@
   </head>
 
   <body>
+    <h1>Moody</h1>
+    <% if session['userinfo'] %>
+      <%= session["userinfo"]["info"]["nickname"] %>
+      <%= image_tag(session["userinfo"]["info"]["image"]) %>
+      <%= button_to 'Logout', 'logout', method: :get  %>
+    <% else %>
+      <%= button_to 'Login', 'auth/auth0', method: :post unless session['userinfo'] %>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
