@@ -4,12 +4,21 @@
     <title>Moody</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="csrf-param" content="authenticity_token">
+    <meta name="csrf-token" content="UY2XpKwxzwBWalxFVJ8yKsao/33it7If09BnZewpHifVPSpFJd2LrA7xgQn6VQrhZNGjgZoLI3kV+bkQHtr+Rw==">
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+    <% greeting %>
+      <a class="navbar-brand" href="<%= @link %>">
+        <%= @greeting  %>
+      </a>
+
+
+    <%= login_or_out %>
     <%= yield %>
   </body>
 </html>
